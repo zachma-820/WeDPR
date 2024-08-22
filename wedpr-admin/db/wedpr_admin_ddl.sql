@@ -2,7 +2,7 @@
 CREATE TABLE IF NOT EXISTS wedpr_agency (
     agency_no VARCHAR(64) NOT NULL comment "机构编号",
     agency_name VARCHAR(64) NOT NULL comment "机构名",
-    `desc` text NOT NULL comment "机构描述",
+    agency_desc text NOT NULL comment "机构描述",
     agency_contact VARCHAR(64) NOT NULL comment "机构联系人",
     contact_phone VARCHAR(64) NOT NULL comment "联系电话",
     gateway_endpoint VARCHAR(64) NOT NULL comment "网关地址",
