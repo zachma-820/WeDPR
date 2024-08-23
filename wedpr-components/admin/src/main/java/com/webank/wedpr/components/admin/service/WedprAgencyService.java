@@ -3,6 +3,10 @@ package com.webank.wedpr.components.admin.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.webank.wedpr.components.admin.entity.WedprAgency;
 import com.webank.wedpr.components.admin.request.CreateOrUpdateWedprAgencyRequest;
+import com.webank.wedpr.components.admin.request.GetWedprAgencyListRequest;
+import com.webank.wedpr.components.admin.request.SetWedprAgencyRequest;
+import com.webank.wedpr.components.admin.response.GetWedprAgencyDetailResponse;
+import com.webank.wedpr.components.admin.response.GetWedprAgencyListResponse;
 import com.webank.wedpr.components.token.auth.model.UserToken;
 import com.webank.wedpr.core.utils.WeDPRException;
 
@@ -16,4 +20,13 @@ public interface WedprAgencyService extends IService<WedprAgency> {
     String createOrUpdateAgency(
             CreateOrUpdateWedprAgencyRequest createOrUpdateWedprAgencyRequest, UserToken userToken)
             throws WeDPRException;
+
+    GetWedprAgencyListResponse getWedprAgencyList(
+            GetWedprAgencyListRequest getWedprAgencyListRequest);
+
+    GetWedprAgencyDetailResponse getWedprAgencyDetail(String agencyId) throws WeDPRException;
+
+    void deleteWedprAgency(String agencyId) throws WeDPRException;
+
+    void setWedprAgency(SetWedprAgencyRequest setWedprAgencyRequest) throws WeDPRException;
 }

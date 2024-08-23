@@ -1,5 +1,6 @@
 package com.webank.wedpr.components.admin.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -16,11 +17,12 @@ public class WedprCert implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @TableId("cert_id")
     @ApiModelProperty(value = "证书id")
     private String certId;
 
     @ApiModelProperty(value = "机构编号")
-    private String agencyNo;
+    private String agencyId;
 
     @ApiModelProperty(value = "机构名")
     private String agencyName;
@@ -53,12 +55,12 @@ public class WedprCert implements Serializable {
         this.certId = certId;
     }
 
-    public String getAgencyNo() {
-        return agencyNo;
+    public String getAgencyId() {
+        return agencyId;
     }
 
-    public void setAgencyNo(String agencyNo) {
-        this.agencyNo = agencyNo;
+    public void setAgencyId(String agencyId) {
+        this.agencyId = agencyId;
     }
 
     public String getAgencyName() {
@@ -139,7 +141,7 @@ public class WedprCert implements Serializable {
                 + "certId="
                 + certId
                 + ", agencyNo="
-                + agencyNo
+                + agencyId
                 + ", agencyName="
                 + agencyName
                 + ", csrFileText="

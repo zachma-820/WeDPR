@@ -4,9 +4,9 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.webank.wedpr.components.admin.entity.WedprAgency">
-        <id column="agency_no" property="agencyNo" />
+        <id column="agency_id" property="agencyId" />
         <result column="agency_name" property="agencyName" />
-        <result column="desc" property="desc" />
+        <result column="desc" property="agencyDesc" />
         <result column="agency_contact" property="agencyContact" />
         <result column="contact_phone" property="contactPhone" />
         <result column="gateway_endpoint" property="gatewayEndpoint" />

@@ -9,7 +9,7 @@ import org.hibernate.validator.constraints.Length;
 public class CreateOrUpdateWedprAgencyRequest {
 
     @Length(max = 64, message = "机构id最多64个字符")
-    private String agencyNo;
+    private String agencyId;
 
     @NotBlank(message = "机构名不能为空")
     @Length(max = 64, message = "机构名最多64个字符")
