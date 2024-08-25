@@ -1,36 +1,25 @@
 -- 创建机构表
 CREATE TABLE IF NOT EXISTS wedpr_agency (
-    agency_no VARCHAR(64) NOT NULL comment "机构编号",
+    agency_id VARCHAR(64) NOT NULL comment "机构编号",
     agency_name VARCHAR(64) NOT NULL comment "机构名",
-    `desc` text NOT NULL comment "机构描述",
+    agency_desc text NOT NULL comment "机构描述",
     agency_contact VARCHAR(64) NOT NULL comment "机构联系人",
     contact_phone VARCHAR(64) NOT NULL comment "联系电话",
     gateway_endpoint VARCHAR(64) NOT NULL comment "网关地址",
     agency_status TINYINT DEFAULT 0 NOT NULL comment "机构状态(0:启用，1:禁用)",
-    create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    update_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    create_by VARCHAR(20) NOT NULL DEFAULT '',
-    update_by VARCHAR(20) NOT NULL DEFAULT '',
-    PRIMARY KEY (agency_no),
-    INDEX idx_agency_name (agency_name)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin ROW_FORMAT=DYNAMIC;
-
-
--- 创建机构用户表
-CREATE TABLE IF NOT EXISTS wedpr_agency_user (
-    agency_no VARCHAR(64) NOT NULL comment "机构编号",
     user_count INT DEFAULT 0 comment "机构用户数",
     create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     update_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     create_by VARCHAR(20) NOT NULL DEFAULT '',
     update_by VARCHAR(20) NOT NULL DEFAULT '',
-    PRIMARY KEY (agency_no)
+    PRIMARY KEY (agency_id),
+    INDEX idx_agency_name (agency_name)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin ROW_FORMAT=DYNAMIC;
 
 -- 创建机构证书表
 CREATE TABLE IF NOT EXISTS wedpr_cert (
     cert_id VARCHAR(64) NOT NULL comment "证书id",
-    agency_no VARCHAR(64) NOT NULL comment "机构编号",
+    agency_id VARCHAR(64) NOT NULL comment "机构编号",
     agency_name VARCHAR(64) NOT NULL comment "机构名",
     csr_file_text text NOT NULL comment "机构证书请求文件内容",
     cert_file_text text NOT NULL comment "机构证书文件内容",
