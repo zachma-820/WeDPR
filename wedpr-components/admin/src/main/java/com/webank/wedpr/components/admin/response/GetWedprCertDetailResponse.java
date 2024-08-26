@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class GetWedprCertDetailResponse {
     private String certId;
-    private String agencyId;
+    private String agencyName;
     private LocalDateTime expireTime;
     private String csrFile;
 }

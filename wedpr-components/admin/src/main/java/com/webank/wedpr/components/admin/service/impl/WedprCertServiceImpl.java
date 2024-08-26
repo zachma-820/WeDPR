@@ -52,18 +52,17 @@ public class WedprCertServiceImpl extends ServiceImpl<WedprCertMapper, WedprCert
             throws WeDPRException, IOException {
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         String certId = multipartRequest.getParameter("certId");
-        String agencyId = multipartRequest.getParameter("agencyId");
+        String agencyName = multipartRequest.getParameter("agencyName");
         String expireTimeStr = multipartRequest.getParameter("expireTime");
         LocalDateTime expireTime = Utils.getLocalDateTime(expireTimeStr);
         long days = Utils.getDaysDifference(expireTime);
         if (days <= 0) {
             throw new WeDPRException("expireTime is invalid");
         }
-        WedprAgency wedprAgency = wedprAgencyService.getById(agencyId);
+        WedprAgency wedprAgency = wedprAgencyService.getOne(new LambdaQueryWrapper<WedprAgency>().eq(WedprAgency::getAgencyName, agencyName));
         if (wedprAgency == null) {
             throw new WeDPRException("agency does not exist");
         }
-        String agencyName = wedprAgency.getAgencyName();
         MultipartFile multipartFile = multipartRequest.getFile("csrFile");
         if (multipartFile == null) {
             throw new WeDPRException("Please provide agency csr file");
@@ -95,7 +94,7 @@ public class WedprCertServiceImpl extends ServiceImpl<WedprCertMapper, WedprCert
                         agencyName);
         if (StringUtils.isEmpty(certId)) {
             WedprCert wedprCert = new WedprCert();
-            wedprCert.setAgencyId(agencyId);
+            wedprCert.setAgencyId(wedprAgency.getAgencyId());
             wedprCert.setAgencyName(agencyName);
             wedprCert.setCsrFileText(csrFileText);
             wedprCert.setCertFileText(crtFileStr);
@@ -190,7 +189,7 @@ public class WedprCertServiceImpl extends ServiceImpl<WedprCertMapper, WedprCert
         WedprCert wedprCert = checkAgencyCertExist(certId);
         GetWedprCertDetailResponse response = new GetWedprCertDetailResponse();
         response.setCertId(wedprCert.getCertId());
-        response.setAgencyId(wedprCert.getAgencyId());
+        response.setAgencyName(wedprCert.getAgencyName());
         response.setExpireTime(wedprCert.getExpireTime());
         response.setCsrFile(wedprCert.getCsrFileText());
         return response;

@@ -78,7 +78,7 @@ public class Utils {
 
     public static LocalDateTime getLocalDateTime(String inputTime) {
         // 定义时间格式
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         // 将字符串转换为 LocalDateTime
         LocalDateTime parsedTime = LocalDateTime.parse(inputTime, formatter);
         return parsedTime;
