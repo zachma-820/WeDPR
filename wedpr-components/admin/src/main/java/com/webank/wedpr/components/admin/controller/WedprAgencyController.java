@@ -131,7 +131,8 @@ public class WedprAgencyController {
      */
     @PostMapping("/setAgency")
     public WeDPRResponse setAgency(
-            @Valid SetWedprAgencyRequest setWedprAgencyRequest, HttpServletRequest request) {
+            @Valid @RequestBody SetWedprAgencyRequest setWedprAgencyRequest,
+            HttpServletRequest request) {
         try {
             // check user permission
             Utils.checkPermission(request);

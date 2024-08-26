@@ -9,14 +9,14 @@ import org.hibernate.validator.constraints.Length;
 
 /** Created by caryliao on 2024/8/22 16:58 */
 @Data
-public class SetWedprAgencyRequest {
+public class SetAgencyCertRequest {
 
     @NotBlank
-    @Length(max = 64, message = "机构id最多64个字符")
-    private String agencyId;
+    @Length(max = 64, message = "机构证书id最多64个字符")
+    private String certId;
 
     @NotNull
-    @Max(value = 1, message = "agencyStatus只能为0和1: 0表示启用")
-    @Min(value = 0, message = "agencyStatus只能为0和1: 1表示禁用")
-    private Integer agencyStatus;
+    @Max(value = 1, message = "certStatus只能为0和1: 0表示启用")
+    @Min(value = 0, message = "certStatus只能为0和1: 1表示禁用")
+    private Integer certStatus;
 }
