@@ -78,24 +78,24 @@ public class Utils {
 
     public static LocalDateTime getLocalDateTime(String inputTime) {
         // 定义时间格式
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         // 将字符串转换为 LocalDateTime
         LocalDateTime parsedTime = LocalDateTime.parse(inputTime, formatter);
         return parsedTime;
     }
 
-    public static boolean fileToZip(String sourcePath, String fileName) { // NOSONAR
+    public static boolean fileToZip(String sourcePath, String agencyName) { // NOSONAR
         BufferedInputStream bis = null;
         ZipOutputStream zos = null;
         try { // NOSONAR
-            log.info("fileToZip fileName:{} sourcePath:{}", fileName, sourcePath);
+            log.info("fileToZip agencyName:{} sourcePath:{}", agencyName, sourcePath);
             File sourceFile = new File(sourcePath);
             if (!sourceFile.exists()) {
                 log.error("No source filePath");
                 return false;
             }
-            File zipFlie =
-                    new File(sourcePath + File.separator + fileName + Constant.ZIP_FILE_SUFFIX);
+            String zipFileName = agencyName + Constant.ZIP_FILE_SUFFIX;
+            File zipFlie = new File(sourcePath + File.separator + zipFileName);
 
             File[] sourceFiles = sourceFile.listFiles();
             if (sourceFiles == null || sourceFiles.length < 1) {
@@ -107,8 +107,14 @@ public class Utils {
             zos = new ZipOutputStream(new BufferedOutputStream(fos)); // NOSONAR
             byte[] bufs = new byte[1024 * 10];
             for (int i = 0; i < sourceFiles.length; i++) {
+                String fileName = sourceFiles[i].getName();
+                log.info("compress fileName:{}", fileName);
+                if (zipFileName.equals(fileName)) {
+                    log.info("zip fileName:{} is skip", fileName);
+                    continue;
+                }
                 // zip实体，添加到压缩包
-                ZipEntry zipEntry = new ZipEntry(sourceFiles[i].getName());
+                ZipEntry zipEntry = new ZipEntry(fileName);
                 zos.putNextEntry(zipEntry);
                 // 读取代压缩文件写到压缩包里
                 fis = new FileInputStream(sourceFiles[i]); // NOSONAR

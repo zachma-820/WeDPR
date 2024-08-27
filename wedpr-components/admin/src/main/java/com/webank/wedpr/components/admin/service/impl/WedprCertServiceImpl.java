@@ -59,7 +59,10 @@ public class WedprCertServiceImpl extends ServiceImpl<WedprCertMapper, WedprCert
         if (days <= 0) {
             throw new WeDPRException("expireTime is invalid");
         }
-        WedprAgency wedprAgency = wedprAgencyService.getOne(new LambdaQueryWrapper<WedprAgency>().eq(WedprAgency::getAgencyName, agencyName));
+        WedprAgency wedprAgency =
+                wedprAgencyService.getOne(
+                        new LambdaQueryWrapper<WedprAgency>()
+                                .eq(WedprAgency::getAgencyName, agencyName));
         if (wedprAgency == null) {
             throw new WeDPRException("agency does not exist");
         }
@@ -68,22 +71,28 @@ public class WedprCertServiceImpl extends ServiceImpl<WedprCertMapper, WedprCert
             throw new WeDPRException("Please provide agency csr file");
         }
         // 获取文件名/
-        String filename = multipartFile.getOriginalFilename();
-        if (!Utils.isSafeCommand(filename)) {
-            throw new WeDPRException("filename is unSafe.");
+        String csrFileName = multipartFile.getOriginalFilename();
+        if (!Utils.isSafeCommand(csrFileName)) {
+            throw new WeDPRException("csrFileName is unSafe.");
         }
         String csrPath =
                 wedprCertConfig.getAgencyCertPath()
                         + File.separator
                         + agencyName
                         + File.separator
-                        + filename;
+                        + csrFileName;
         File csrFile = new File(csrPath);
         if (!csrFile.exists()) {
             csrFile.mkdirs();
         }
         multipartFile.transferTo(csrFile);
         String csrFileText = Utils.fileToBase64(csrFile.toPath().toString());
+        LocalDateTime now = LocalDateTime.now();
+        expireTime =
+                expireTime
+                        .withHour(now.getHour())
+                        .withMinute(now.getMinute())
+                        .withSecond(now.getSecond());
         boolean result = localShellService.buildAuthorityCsrToCrt(agencyName, csrPath, days);
         if (!result) {
             throw new WeDPRException("create or update agency cert error");
@@ -96,6 +105,7 @@ public class WedprCertServiceImpl extends ServiceImpl<WedprCertMapper, WedprCert
             WedprCert wedprCert = new WedprCert();
             wedprCert.setAgencyId(wedprAgency.getAgencyId());
             wedprCert.setAgencyName(agencyName);
+            wedprCert.setCsrFileName(csrFileName);
             wedprCert.setCsrFileText(csrFileText);
             wedprCert.setCertFileText(crtFileStr);
             wedprCert.setExpireTime(expireTime);
@@ -105,11 +115,12 @@ public class WedprCertServiceImpl extends ServiceImpl<WedprCertMapper, WedprCert
             return wedprCert.getCertId();
         } else {
             WedprCert wedprCert = checkAgencyCertExist(certId);
+            wedprCert.setCsrFileName(csrFileName);
             wedprCert.setCsrFileText(csrFileText);
             wedprCert.setCertFileText(crtFileStr);
             wedprCert.setExpireTime(expireTime);
             wedprCert.setUpdateBy(username);
-            wedprCert.setUpdateTime(LocalDateTime.now());
+            wedprCert.setUpdateTime(now);
             updateById(wedprCert);
             return certId;
         }
@@ -190,8 +201,9 @@ public class WedprCertServiceImpl extends ServiceImpl<WedprCertMapper, WedprCert
         GetWedprCertDetailResponse response = new GetWedprCertDetailResponse();
         response.setCertId(wedprCert.getCertId());
         response.setAgencyName(wedprCert.getAgencyName());
-        response.setExpireTime(wedprCert.getExpireTime());
+        response.setCsrFileName(wedprCert.getCsrFileName());
         response.setCsrFile(wedprCert.getCsrFileText());
+        response.setExpireTime(wedprCert.getExpireTime());
         return response;
     }
 

@@ -9,5 +9,6 @@ public class GetWedprCertDetailResponse {
     private String certId;
     private String agencyName;
     private LocalDateTime expireTime;
+    private String csrFileName;
     private String csrFile;
 }
