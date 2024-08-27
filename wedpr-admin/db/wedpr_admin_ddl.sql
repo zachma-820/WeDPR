@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS wedpr_cert (
     cert_id VARCHAR(64) NOT NULL comment "证书id",
     agency_id VARCHAR(64) NOT NULL comment "机构编号",
     agency_name VARCHAR(64) NOT NULL comment "机构名",
+    csr_file_name VARCHAR(64) NOT NULL comment "机构证书请求文件名",
     csr_file_text text NOT NULL comment "机构证书请求文件内容",
     cert_file_text text NOT NULL comment "机构证书文件内容",
     expire_time DATETIME NOT NULL comment "过期时间",

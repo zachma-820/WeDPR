@@ -42,11 +42,11 @@ public class WedprAgencyController {
         try {
             // check user permission
             UserToken userToken = Utils.checkPermission(request);
-            String agencyNo =
+            String agencyId =
                     wedprAgencyService.createOrUpdateAgency(
                             createOrUpdateWedprAgencyRequest, userToken);
             CreateOrUpdateWedprAgencyResponse response = new CreateOrUpdateWedprAgencyResponse();
-            response.setAgencyId(agencyNo);
+            response.setAgencyId(agencyId);
             return new WeDPRResponse(Constant.WEDPR_SUCCESS, Constant.WEDPR_SUCCESS_MSG, response);
         } catch (Exception e) {
             log.error("create or update agency error", e);
@@ -131,7 +131,8 @@ public class WedprAgencyController {
      */
     @PostMapping("/setAgency")
     public WeDPRResponse setAgency(
-            @Valid SetWedprAgencyRequest setWedprAgencyRequest, HttpServletRequest request) {
+            @Valid @RequestBody SetWedprAgencyRequest setWedprAgencyRequest,
+            HttpServletRequest request) {
         try {
             // check user permission
             Utils.checkPermission(request);

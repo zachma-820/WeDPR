@@ -15,7 +15,7 @@ import com.webank.wedpr.components.admin.response.WedprAgencyDTO;
 import com.webank.wedpr.components.admin.service.WedprAgencyService;
 import com.webank.wedpr.components.admin.service.WedprCertService;
 import com.webank.wedpr.components.token.auth.model.UserToken;
-import com.webank.wedpr.core.protocol.CertStatusEnum;
+import com.webank.wedpr.core.protocol.CertStatusViewEnum;
 import com.webank.wedpr.core.utils.Constant;
 import com.webank.wedpr.core.utils.WeDPRException;
 import java.time.LocalDateTime;
@@ -111,7 +111,7 @@ public class WedprAgencyServiceImpl extends ServiceImpl<WedprAgencyMapper, Wedpr
                             new LambdaQueryWrapper<WedprCert>()
                                     .eq(WedprCert::getAgencyName, wedprAgency.getAgencyName()));
             if (wedprCert == null) {
-                wedprAgencyDTO.setCertStatus(CertStatusEnum.NO_CERT.getStatusValue());
+                wedprAgencyDTO.setCertStatus(CertStatusViewEnum.NO_CERT.getStatusValue());
             } else {
                 wedprAgencyDTO.setCertStatus(wedprCert.getCertStatus());
             }
