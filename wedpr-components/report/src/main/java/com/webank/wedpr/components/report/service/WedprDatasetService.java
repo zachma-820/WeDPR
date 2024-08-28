@@ -1,7 +1,7 @@
 package com.webank.wedpr.components.report.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.webank.wedpr.components.report.entity.WedprDataset;
+import com.webank.wedpr.components.dataset.dao.Dataset;
 
 /**
  * 数据集记录表 服务类
@@ -9,4 +9,4 @@ import com.webank.wedpr.components.report.entity.WedprDataset;
  * @author caryliao
  * @since 2024-08-27
  */
-public interface WedprDatasetService extends IService<WedprDataset> {}
+public interface WedprDatasetService extends IService<Dataset> {}

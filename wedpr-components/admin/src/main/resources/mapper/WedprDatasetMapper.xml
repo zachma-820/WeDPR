@@ -10,7 +10,7 @@
         <result column="dataset_desc" property="datasetDesc" />
         <result column="dataset_fields" property="datasetFields" />
         <result column="dataset_version_hash" property="datasetVersionHash" />
-        <result column="dataset_data_size" property="datasetDataSize" />
+        <result column="dataset_size" property="datasetDataSize" />
         <result column="dataset_record_count" property="datasetRecordCount" />
         <result column="dataset_column_count" property="datasetColumnCount" />
         <result column="dataset_storage_type" property="datasetStorageType" />

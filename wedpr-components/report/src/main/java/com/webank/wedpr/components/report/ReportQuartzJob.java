@@ -1,7 +1,7 @@
 /** Copyright (C) @2014-2022 Webank */
 package com.webank.wedpr.components.report;
 
-import com.webank.wedpr.components.report.entity.WedprDataset;
+import com.webank.wedpr.components.dataset.dao.Dataset;
 import com.webank.wedpr.components.report.service.WedprDatasetService;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -30,7 +30,7 @@ public class ReportQuartzJob implements Job {
 
     @Transactional(rollbackFor = Exception.class)
     private void doReport() {
-        List<WedprDataset> wedprDatasetList = wedprDatasetService.list();
+        List<Dataset> wedprDatasetList = wedprDatasetService.list();
         log.info("do report...");
     }
 }
