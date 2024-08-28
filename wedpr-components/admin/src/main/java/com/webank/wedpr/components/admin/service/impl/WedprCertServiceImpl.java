@@ -152,13 +152,13 @@ public class WedprCertServiceImpl extends ServiceImpl<WedprCertMapper, WedprCert
 
     @Override
     public GetWedprCertListResponse getAgencyCertList(GetWedprCertListRequest request) {
-        String certId = request.getCertId();
+        String agencyName = request.getAgencyName();
         Integer certStatus = request.getCertStatus();
         String signStartTimeStr = request.getSignStartTime();
         String signEndTimeStr = request.getSignEndTime();
         LambdaQueryWrapper<WedprCert> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-        if (!StringUtils.isEmpty(certId)) {
-            lambdaQueryWrapper.like(WedprCert::getCertId, certId);
+        if (!StringUtils.isEmpty(agencyName)) {
+            lambdaQueryWrapper.like(WedprCert::getAgencyName, agencyName);
         }
         if (certStatus != null) {
             setCertStatusQueryParam(certStatus, lambdaQueryWrapper);

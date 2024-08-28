@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 public class GetWedprCertListRequest {
-    private String certId;
+    private String agencyName;
     private Integer certStatus;
     private String signStartTime;
     private String signEndTime;
