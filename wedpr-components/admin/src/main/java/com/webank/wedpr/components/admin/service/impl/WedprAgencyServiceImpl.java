@@ -3,6 +3,7 @@ package com.webank.wedpr.components.admin.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.webank.wedpr.components.admin.common.Utils;
 import com.webank.wedpr.components.admin.entity.WedprAgency;
 import com.webank.wedpr.components.admin.entity.WedprCert;
 import com.webank.wedpr.components.admin.mapper.WedprAgencyMapper;
@@ -113,7 +114,9 @@ public class WedprAgencyServiceImpl extends ServiceImpl<WedprAgencyMapper, Wedpr
             if (wedprCert == null) {
                 wedprAgencyDTO.setCertStatus(CertStatusViewEnum.NO_CERT.getStatusValue());
             } else {
-                wedprAgencyDTO.setCertStatus(wedprCert.getCertStatus());
+                wedprAgencyDTO.setCertStatus(
+                        Utils.getCertStatusView(
+                                wedprCert.getCertStatus(), wedprCert.getExpireTime()));
             }
             wedprAgencyDTO.setAgencyId(wedprAgency.getAgencyId());
             wedprAgencyDTO.setAgencyName(wedprAgency.getAgencyName());

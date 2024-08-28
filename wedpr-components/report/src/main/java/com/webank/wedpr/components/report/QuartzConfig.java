@@ -1,5 +1,5 @@
 /** Copyright (C) @2014-2022 Webank */
-package com.webank.wedpr.report;
+package com.webank.wedpr.components.report;
 
 import java.io.IOException;
 import java.util.Properties;

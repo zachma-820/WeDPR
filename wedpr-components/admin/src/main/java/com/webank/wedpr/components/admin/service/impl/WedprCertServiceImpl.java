@@ -59,13 +59,6 @@ public class WedprCertServiceImpl extends ServiceImpl<WedprCertMapper, WedprCert
         if (days <= 0) {
             throw new WeDPRException("expireTime is invalid");
         }
-        WedprAgency wedprAgency =
-                wedprAgencyService.getOne(
-                        new LambdaQueryWrapper<WedprAgency>()
-                                .eq(WedprAgency::getAgencyName, agencyName));
-        if (wedprAgency == null) {
-            throw new WeDPRException("agency does not exist");
-        }
         MultipartFile multipartFile = multipartRequest.getFile("csrFile");
         if (multipartFile == null) {
             throw new WeDPRException("Please provide agency csr file");
@@ -102,6 +95,13 @@ public class WedprCertServiceImpl extends ServiceImpl<WedprCertMapper, WedprCert
                         wedprCertConfig.getAgencyCertPath() + File.separator + agencyName,
                         agencyName);
         if (StringUtils.isEmpty(certId)) {
+            WedprAgency wedprAgency =
+                    wedprAgencyService.getOne(
+                            new LambdaQueryWrapper<WedprAgency>()
+                                    .eq(WedprAgency::getAgencyName, agencyName));
+            if (wedprAgency == null) {
+                throw new WeDPRException("agency does not exist");
+            }
             WedprCert wedprCert = new WedprCert();
             wedprCert.setAgencyId(wedprAgency.getAgencyId());
             wedprCert.setAgencyName(agencyName);
@@ -186,7 +186,7 @@ public class WedprCertServiceImpl extends ServiceImpl<WedprCertMapper, WedprCert
             wedprCertDTO.setSignTime(wedprCert.getCreateTime());
             wedprCertDTO.setExpireTime(wedprCert.getExpireTime());
             Integer certStatusView =
-                    getCertStatusView(wedprCert.getCertStatus(), wedprCert.getExpireTime());
+                    Utils.getCertStatusView(wedprCert.getCertStatus(), wedprCert.getExpireTime());
             wedprCertDTO.setCertStatus(certStatusView);
             wedprCertDTO.setEnable(wedprCert.getCertStatus());
             wedprCertDTOList.add(wedprCertDTO);
@@ -214,19 +214,6 @@ public class WedprCertServiceImpl extends ServiceImpl<WedprCertMapper, WedprCert
         response.setCertName(wedprCert.getAgencyName() + Constant.ZIP_FILE_SUFFIX);
         response.setCertData(wedprCert.getCertFileText());
         return response;
-    }
-
-    private static Integer getCertStatusView(Integer certStatus, LocalDateTime expireTime) {
-        LocalDateTime now = LocalDateTime.now();
-        if (CertStatusEnum.FORBID_CERT.getStatusValue() == certStatus) {
-            return CertStatusViewEnum.FORBID_CERT.getStatusValue();
-        } else {
-            if (expireTime.isAfter(now)) {
-                return CertStatusViewEnum.VALID_CERT.getStatusValue();
-            } else {
-                return CertStatusViewEnum.EXPIRED_CERT.getStatusValue();
-            }
-        }
     }
 
     private static void setCertStatusQueryParam(

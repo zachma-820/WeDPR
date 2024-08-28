@@ -2,6 +2,8 @@ package com.webank.wedpr.components.admin.common;
 
 import com.webank.wedpr.components.token.auth.TokenUtils;
 import com.webank.wedpr.components.token.auth.model.UserToken;
+import com.webank.wedpr.core.protocol.CertStatusEnum;
+import com.webank.wedpr.core.protocol.CertStatusViewEnum;
 import com.webank.wedpr.core.protocol.UserRoleEnum;
 import com.webank.wedpr.core.utils.Constant;
 import com.webank.wedpr.core.utils.WeDPRException;
@@ -149,5 +151,18 @@ public class Utils {
             log.error("fileToBase64 err" + e);
         }
         return base64;
+    }
+
+    public static Integer getCertStatusView(Integer certStatus, LocalDateTime expireTime) {
+        LocalDateTime now = LocalDateTime.now();
+        if (CertStatusEnum.FORBID_CERT.getStatusValue() == certStatus) {
+            return CertStatusViewEnum.FORBID_CERT.getStatusValue();
+        } else {
+            if (expireTime.isAfter(now)) {
+                return CertStatusViewEnum.VALID_CERT.getStatusValue();
+            } else {
+                return CertStatusViewEnum.EXPIRED_CERT.getStatusValue();
+            }
+        }
     }
 }
