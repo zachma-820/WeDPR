@@ -1,3 +1,28 @@
+-- the wedpr config table
+create table if not exists `wedpr_config_table`(
+    `config_key` varchar(128) not null comment "配置项主键",
+    `config_value` longtext not null comment "配置项的值",
+    `create_time` datetime DEFAULT  CURRENT_TIMESTAMP comment "配置创建时间",
+    `last_update_time` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP comment "配置更新时间",
+     primary key(`config_key`)
+)ENGINE=InnoDB default charset=utf8mb4 default collate=utf8mb4_bin ROW_FORMAT=DYNAMIC;
+
+CREATE TABLE if not exists `wedpr_dataset_permission` (
+    `id` VARCHAR(64) NOT NULL COMMENT '数据集权限id',
+    `dataset_id` VARCHAR(64) NOT NULL COMMENT '数据集id',
+    `permission_type` int(8) NOT NULL COMMENT '权限类型',
+    `permission_scope` VARCHAR(255) NOT NULL COMMENT '权限范围',
+    `permission_subject_id` TEXT NOT NULL COMMENT '数据集授权对象的id',
+    `expired_at` DATE NOT NULL DEFAULT '9999-12-31',
+    `create_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `update_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    INDEX dataset_id_index (`dataset_id`),
+    INDEX permission_type_index (`permission_type`),
+    INDEX permission_scope_index (`permission_scope`),
+    INDEX expired_at_index (`expired_at`)
+)ENGINE='InnoDB' DEFAULT CHARSET='utf8mb4' COLLATE='utf8mb4_bin' ROW_FORMAT=DYNAMIC COMMENT '数据集权限表';
+
 -- 创建机构表
 CREATE TABLE IF NOT EXISTS wedpr_agency (
     agency_id VARCHAR(64) NOT NULL comment "机构编号",

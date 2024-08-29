@@ -98,7 +98,7 @@ public class WedprAgencyServiceImpl extends ServiceImpl<WedprAgencyMapper, Wedpr
         if (!StringUtils.isEmpty(agencyName)) {
             lambdaQueryWrapper.like(WedprAgency::getAgencyName, agencyName);
         }
-        lambdaQueryWrapper.orderByDesc(WedprAgency::getCreateTime);
+        lambdaQueryWrapper.orderByDesc(WedprAgency::getUpdateTime);
         Page<WedprAgency> wedprAgencyPage = new Page<>(request.getPageNum(), request.getPageSize());
         Page<WedprAgency> page = page(wedprAgencyPage, lambdaQueryWrapper);
         GetWedprAgencyListResponse response = new GetWedprAgencyListResponse();

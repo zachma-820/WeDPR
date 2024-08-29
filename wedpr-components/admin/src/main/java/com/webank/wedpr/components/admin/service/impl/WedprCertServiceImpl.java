@@ -171,7 +171,7 @@ public class WedprCertServiceImpl extends ServiceImpl<WedprCertMapper, WedprCert
             LocalDateTime signEndTime = Utils.getLocalDateTime(signEndTimeStr);
             lambdaQueryWrapper.le(WedprCert::getCreateTime, signEndTime);
         }
-        lambdaQueryWrapper.orderByDesc(WedprCert::getCreateTime);
+        lambdaQueryWrapper.orderByDesc(WedprCert::getUpdateTime);
         Page<WedprCert> wedprAgencyPage = new Page<>(request.getPageNum(), request.getPageSize());
         Page<WedprCert> page = page(wedprAgencyPage, lambdaQueryWrapper);
         GetWedprCertListResponse response = new GetWedprCertListResponse();
