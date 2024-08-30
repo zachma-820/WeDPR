@@ -4,10 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.webank.wedpr.components.admin.common.Utils;
-import com.webank.wedpr.components.admin.mapper.WedprDatasetMapper;
 import com.webank.wedpr.components.admin.request.GetWedprDatasetListRequest;
 import com.webank.wedpr.components.admin.service.WedprDatasetService;
 import com.webank.wedpr.components.dataset.dao.Dataset;
+import com.webank.wedpr.components.dataset.mapper.DatasetMapper;
 import com.webank.wedpr.components.dataset.message.ListDatasetResponse;
 import java.time.LocalDateTime;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ import org.springframework.util.StringUtils;
  * @since 2024-08-29
  */
 @Service
-public class WedprDatasetServiceImpl extends ServiceImpl<WedprDatasetMapper, Dataset>
+public class WedprDatasetServiceImpl extends ServiceImpl<DatasetMapper, Dataset>
         implements WedprDatasetService {
 
     @Override
