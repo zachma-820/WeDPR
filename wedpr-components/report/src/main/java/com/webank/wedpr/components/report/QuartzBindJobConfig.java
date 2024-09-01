@@ -13,7 +13,7 @@ public class QuartzBindJobConfig {
     @Autowired private QuartzJobFactory quartzJobFactory;
     @Autowired private Scheduler scheduler;
 
-    @Value("${quartz-cron-report-job}")
+    @Value("${quartz-cron-report-job:0/2 * * * * ? *}")
     private String quartzCronReportJob;
 
     private final String jobGroup = "wedpr";
