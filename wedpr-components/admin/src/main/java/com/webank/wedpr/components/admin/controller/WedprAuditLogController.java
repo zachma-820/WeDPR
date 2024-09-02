@@ -8,6 +8,7 @@ import com.webank.wedpr.components.token.auth.model.UserToken;
 import com.webank.wedpr.core.utils.Constant;
 import com.webank.wedpr.core.utils.WeDPRResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,7 +31,8 @@ public class WedprAuditLogController {
 
     @GetMapping("/queryRecordSyncStatus")
     public WeDPRResponse queryRecordSyncStatus(
-            GetWedprAuditLogListRequest getWedprAuditLogListRequest, HttpServletRequest request) {
+            @Valid GetWedprAuditLogListRequest getWedprAuditLogListRequest,
+            HttpServletRequest request) {
         try {
             // check user permission
             UserToken userToken = Utils.checkPermission(request);

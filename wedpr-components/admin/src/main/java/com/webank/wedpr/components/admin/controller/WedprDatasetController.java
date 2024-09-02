@@ -9,6 +9,7 @@ import com.webank.wedpr.components.token.auth.model.UserToken;
 import com.webank.wedpr.core.utils.Constant;
 import com.webank.wedpr.core.utils.WeDPRResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +33,8 @@ public class WedprDatasetController {
 
     @GetMapping("/listDataset")
     public WeDPRResponse listDataset(
-            GetWedprDatasetListRequest getWedprDatasetListRequest, HttpServletRequest request) {
+            @Valid GetWedprDatasetListRequest getWedprDatasetListRequest,
+            HttpServletRequest request) {
         try {
             // check user permission
             UserToken userToken = Utils.checkPermission(request);
