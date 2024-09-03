@@ -7,4 +7,5 @@ dependencies {
     compile project(":wedpr-components-token-auth")
     compile project(":wedpr-components-mybatis")
     compile project(":wedpr-components-dataset")
+    compile project(":wedpr-components-sync")
 }
