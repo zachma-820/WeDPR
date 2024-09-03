@@ -1,6 +1,6 @@
 package com.webank.wedpr.components.admin.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.webank.wedpr.components.admin.common.Utils;
@@ -19,7 +19,7 @@ public class WedprSyncServiceImpl extends ServiceImpl<SyncStatusMapper, Resource
         implements WedprSyncService {
     @Override
     public ResourceStatusResult queryRecordSyncStatus(GetWedprAuditLogListRequest request) {
-        LambdaQueryWrapper<ResourceActionDO> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        QueryWrapper<ResourceActionDO> queryWrapper = new QueryWrapper<>();
         String ownerAgencyName = request.getOwnerAgencyName();
         String resourceAction = request.getResourceAction();
         String resourceType = request.getResourceType();
@@ -29,28 +29,41 @@ public class WedprSyncServiceImpl extends ServiceImpl<SyncStatusMapper, Resource
         Integer pageNum = request.getPageNum();
         Integer pageSize = request.getPageSize();
         if (!StringUtils.isEmpty(ownerAgencyName)) {
-            lambdaQueryWrapper.like(ResourceActionDO::getAgency, ownerAgencyName);
+            queryWrapper.like("agency", ownerAgencyName);
         }
         if (!StringUtils.isEmpty(resourceAction)) {
-            lambdaQueryWrapper.eq(ResourceActionDO::getResourceAction, resourceAction);
+            queryWrapper.eq("resource_action", resourceAction);
         }
         if (!StringUtils.isEmpty(resourceType)) {
-            lambdaQueryWrapper.eq(ResourceActionDO::getResourceType, resourceType);
+            queryWrapper.eq("resource_type", resourceType);
         }
         if (!StringUtils.isEmpty(status)) {
-            lambdaQueryWrapper.eq(ResourceActionDO::getStatus, status);
+            queryWrapper.eq("status", status);
         }
         if (!StringUtils.isEmpty(startTimeStr)) {
             LocalDateTime startTime = Utils.getLocalDateTime(startTimeStr);
-            lambdaQueryWrapper.ge(ResourceActionDO::getCreateTime, startTime);
+            queryWrapper.ge("create_time", startTime);
         }
         if (!StringUtils.isEmpty(endTimeStr)) {
             LocalDateTime endTime = Utils.getLocalDateTime(endTimeStr);
-            lambdaQueryWrapper.le(ResourceActionDO::getCreateTime, endTime);
+            queryWrapper.le("create_time", endTime);
         }
-        lambdaQueryWrapper.orderByDesc(ResourceActionDO::getLastUpdateTime);
+        queryWrapper.orderByDesc("last_update_time");
+        queryWrapper.select(
+                "resource_id",
+                "status",
+                "create_time",
+                "last_update_time",
+                "status_msg",
+                "agency",
+                "resource_type",
+                "resource_action",
+                "`index`",
+                "block_number",
+                "transaction_hash",
+                "`trigger`");
         Page<ResourceActionDO> ResourceActionDOPage = new Page<>(pageNum, pageSize);
-        Page<ResourceActionDO> page = page(ResourceActionDOPage, lambdaQueryWrapper);
+        Page<ResourceActionDO> page = page(ResourceActionDOPage, queryWrapper);
         ResourceStatusResult resourceStatusResult = new ResourceStatusResult();
         resourceStatusResult.setTotal(page.getTotal());
         resourceStatusResult.setDataList(page.getRecords());
