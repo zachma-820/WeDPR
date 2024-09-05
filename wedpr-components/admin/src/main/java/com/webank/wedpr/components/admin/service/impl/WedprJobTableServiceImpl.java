@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
  * 服务实现类
  *
  * @author caryliao
- * @since 2024-08-22
+ * @since 2024-09-04
  */
 @Service
 public class WedprJobTableServiceImpl extends ServiceImpl<WedprJobTableMapper, WedprJobTable>

@@ -1,5 +1,6 @@
 package com.webank.wedpr.components.admin.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -8,7 +9,7 @@ import java.time.LocalDateTime;
 
 /**
  * @author caryliao
- * @since 2024-08-22
+ * @since 2024-09-04
  */
 @TableName("wedpr_job_table")
 @ApiModel(value = "WedprJobTable对象", description = "")
@@ -17,6 +18,7 @@ public class WedprJobTable implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "任务ID")
+    @TableId("id")
     private String id;
 
     @ApiModelProperty(value = "任务名称")
@@ -45,6 +47,9 @@ public class WedprJobTable implements Serializable {
 
     @ApiModelProperty(value = "任务执行结果(json)")
     private String jobResult;
+
+    @ApiModelProperty(value = "上报状态")
+    private Integer reportStatus;
 
     @ApiModelProperty(value = "任务创建时间")
     private LocalDateTime createTime;
@@ -132,6 +137,14 @@ public class WedprJobTable implements Serializable {
         this.jobResult = jobResult;
     }
 
+    public Integer getReportStatus() {
+        return reportStatus;
+    }
+
+    public void setReportStatus(Integer reportStatus) {
+        this.reportStatus = reportStatus;
+    }
+
     public LocalDateTime getCreateTime() {
         return createTime;
     }
@@ -171,6 +184,8 @@ public class WedprJobTable implements Serializable {
                 + status
                 + ", jobResult="
                 + jobResult
+                + ", reportStatus="
+                + reportStatus
                 + ", createTime="
                 + createTime
                 + ", lastUpdateTime="

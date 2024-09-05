@@ -1,5 +1,5 @@
 /** Copyright (C) @2014-2022 Webank */
-package com.webank.wedpr.components.report;
+package com.webank.wedpr.components.report.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

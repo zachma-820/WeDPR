@@ -7,6 +7,6 @@ import com.webank.wedpr.components.admin.entity.WedprJobTable;
  * 服务类
  *
  * @author caryliao
- * @since 2024-08-22
+ * @since 2024-09-04
  */
 public interface WedprJobTableService extends IService<WedprJobTable> {}
