@@ -2,14 +2,15 @@
 package com.webank.wedpr.components.report.job;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.webank.wedpr.components.project.dao.JobDO;
 import com.webank.wedpr.components.project.dao.ProjectDO;
-import com.webank.wedpr.components.project.service.ProjectService;
+import com.webank.wedpr.components.project.dao.ProjectMapper;
+import com.webank.wedpr.components.report.handler.JobReportMessageHandler;
 import com.webank.wedpr.components.report.handler.ProjectReportMessageHandler;
 import com.webank.wedpr.components.transport.Transport;
 import com.webank.wedpr.core.config.WeDPRCommonConfig;
 import com.webank.wedpr.core.protocol.TransportTopicEnum;
 import com.webank.wedpr.core.utils.ObjectMapperFactory;
-import com.webank.wedpr.core.utils.WeDPRException;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 @DisallowConcurrentExecution
 @Slf4j
 public class ReportQuartzJob implements Job {
-    @Autowired private ProjectService projectService;
+    @Autowired private ProjectMapper projectMapper;
 
     private Transport transport;
 
@@ -42,14 +43,34 @@ public class ReportQuartzJob implements Job {
         try {
             String agency = WeDPRCommonConfig.getAgency();
             reportProjectInfo(agency);
+            reportJobInfo(agency);
         } catch (Exception e) {
-            throw new RuntimeException("report error", e);
+            log.warn("report error", e);
         }
     }
 
-    private void reportProjectInfo(String agency) throws WeDPRException, JsonProcessingException {
-        ProjectReportMessageHandler projectReportMessageHandler = new ProjectReportMessageHandler();
-        List<ProjectDO> projectDOList = projectService.queryProjectForReport();
+    private void reportJobInfo(String agency) throws JsonProcessingException {
+        JobReportMessageHandler jobReportMessageHandler =
+                new JobReportMessageHandler(projectMapper);
+        JobDO jobDO = new JobDO();
+        jobDO.setReportStatus(0);
+        List<JobDO> jobDOList = projectMapper.queryJobs(false, jobDO, null);
+        byte[] payload = ObjectMapperFactory.getObjectMapper().writeValueAsBytes(jobDOList);
+        transport.asyncSendMessageByAgency(
+                TransportTopicEnum.JOB_REPORT.name(),
+                agency,
+                payload,
+                0,
+                WeDPRCommonConfig.getReportTimeout(),
+                jobReportMessageHandler);
+    }
+
+    private void reportProjectInfo(String agency) throws JsonProcessingException {
+        ProjectReportMessageHandler projectReportMessageHandler =
+                new ProjectReportMessageHandler(projectMapper);
+        ProjectDO projectDO = new ProjectDO();
+        projectDO.setReportStatus(0);
+        List<ProjectDO> projectDOList = projectMapper.queryProject(false, projectDO);
         byte[] payload = ObjectMapperFactory.getObjectMapper().writeValueAsBytes(projectDOList);
         transport.asyncSendMessageByAgency(
                 TransportTopicEnum.PROJECT_REPORT.name(),
