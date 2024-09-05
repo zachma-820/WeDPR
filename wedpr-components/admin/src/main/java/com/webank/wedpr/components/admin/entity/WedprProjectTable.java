@@ -1,5 +1,7 @@
 package com.webank.wedpr.components.admin.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -8,7 +10,7 @@ import java.time.LocalDateTime;
 
 /**
  * @author caryliao
- * @since 2024-08-22
+ * @since 2024-09-04
  */
 @TableName("wedpr_project_table")
 @ApiModel(value = "WedprProjectTable对象", description = "")
@@ -17,12 +19,14 @@ public class WedprProjectTable implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "项目ID")
+    @TableId("id")
     private String id;
 
     @ApiModelProperty(value = "项目名称")
     private String name;
 
     @ApiModelProperty(value = "项目描述")
+    @TableField("`desc`")
     private String desc;
 
     @ApiModelProperty(value = "项目属主")
@@ -36,6 +40,9 @@ public class WedprProjectTable implements Serializable {
 
     @ApiModelProperty(value = "项目标签")
     private String label;
+
+    @ApiModelProperty(value = "上报状态")
+    private Integer reportStatus;
 
     @ApiModelProperty(value = "项目创建时间")
     private LocalDateTime createTime;
@@ -99,6 +106,14 @@ public class WedprProjectTable implements Serializable {
         this.label = label;
     }
 
+    public Integer getReportStatus() {
+        return reportStatus;
+    }
+
+    public void setReportStatus(Integer reportStatus) {
+        this.reportStatus = reportStatus;
+    }
+
     public LocalDateTime getCreateTime() {
         return createTime;
     }
@@ -132,6 +147,8 @@ public class WedprProjectTable implements Serializable {
                 + projectType
                 + ", label="
                 + label
+                + ", reportStatus="
+                + reportStatus
                 + ", createTime="
                 + createTime
                 + ", lastUpdateTime="

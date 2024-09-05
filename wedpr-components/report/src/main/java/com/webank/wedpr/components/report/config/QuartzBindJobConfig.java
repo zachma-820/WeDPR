@@ -1,6 +1,7 @@
 /** Copyright (C) @2014-2022 Webank */
-package com.webank.wedpr.components.report;
+package com.webank.wedpr.components.report.config;
 
+import com.webank.wedpr.components.report.job.ReportQuartzJob;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;

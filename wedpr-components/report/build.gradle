@@ -4,6 +4,8 @@ plugins {
 }
 
 dependencies {
-    compile project(":wedpr-components-mybatis")
+    implementation project(":wedpr-components-mybatis")
+    implementation project(":wedpr-components-project")
+    implementation project(":wedpr-components-transport")
     implementation("org.springframework.boot:spring-boot-starter-quartz:${springBootVersion}")
 }

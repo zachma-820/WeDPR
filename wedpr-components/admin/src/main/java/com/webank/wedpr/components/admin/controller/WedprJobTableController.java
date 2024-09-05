@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
  * 前端控制器
  *
  * @author caryliao
- * @since 2024-08-22
+ * @since 2024-09-04
  */
 @RestController
 @RequestMapping("/admin/wedprJobTable")

@@ -7,6 +7,6 @@ import com.webank.wedpr.components.admin.entity.WedprJobTable;
  * Mapper 接口
  *
  * @author caryliao
- * @since 2024-08-22
+ * @since 2024-09-04
  */
 public interface WedprJobTableMapper extends BaseMapper<WedprJobTable> {}
